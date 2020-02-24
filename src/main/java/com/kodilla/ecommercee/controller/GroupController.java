@@ -38,8 +38,8 @@ public class GroupController {
         return groupMapper.mapToGroupDto(groupService.getGroup(groupId).orElseThrow(GroupNotFoundException::new));
     }
 
-    @PutMapping
-    public GroupDto updateGroup(@RequestBody GroupDto groupDto) {
+    @PatchMapping(value = "{/id}")
+    public GroupDto updateGroup(@PathVariable("id") long id, @RequestBody GroupDto groupDto) {
         return groupMapper.mapToGroupDto(groupService.saveGroup(groupMapper.mapToGroup(groupDto)));
     }
 }

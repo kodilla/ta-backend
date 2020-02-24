@@ -38,8 +38,8 @@ public class ProductController {
         return productMapper.mapToProductDtoList(productService.getAllProducts());
     }
 
-    @GetMapping
-    public ProductDto getProduct(@RequestParam("productId") long productId) throws ProductNotFoundException {
+    @GetMapping(value = "/{id}")
+    public ProductDto getProduct(@PathVariable("id") long productId) throws ProductNotFoundException {
         return productMapper.mapToProductDto(productService.getProductById(productId)
                 .orElseThrow(() -> new ProductNotFoundException(productId)));
     }
@@ -49,9 +49,9 @@ public class ProductController {
         productService.saveProduct(productMapper.mapToProduct(productDto));
     }
 
-    @PutMapping
-    public ProductDto updateProduct(@RequestBody ProductDto productDto) throws ProductNotFoundException{
-        Product product = productService.getProductById(productDto.getProductId())
+    @PatchMapping(value = "/{id}")
+    public ProductDto updateProduct(@PathVariable("id") long id, @RequestBody ProductDto productDto) throws ProductNotFoundException{
+        Product product = productService.getProductById(id)
                 .orElseThrow(() -> new ProductNotFoundException(productDto.getProductId()));
         product.setName(productDto.getName());
         product.setDescription(productDto.getDescription());
@@ -62,8 +62,8 @@ public class ProductController {
         return productMapper.mapToProductDto(product);
     }
 
-    @DeleteMapping
-    public void deleteProduct(@RequestParam("productId") long productId) {
+    @DeleteMapping(value = "/{id}")
+    public void deleteProduct(@PathVariable("id") long productId) {
         productService.deleteProduct(productId);
     }
 
