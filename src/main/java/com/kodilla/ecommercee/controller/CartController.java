@@ -13,7 +13,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/v1/cart")
+@RequestMapping("/cart")
 public class CartController {
     private final CartService cartService;
     private final CartMapper cartMapper;
@@ -24,12 +24,12 @@ public class CartController {
         this.cartMapper = cartMapper;
     }
 
-    @GetMapping(value = "getProductsFromCart")
+    @GetMapping
     public List<Item> getProductsFromCart(@RequestParam Long cartId) {
         return cartService.getAllProductInCart(cartId);
     }
 
-    @PostMapping(value = "createCart", consumes = APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public void createCart(@RequestBody CartDto cartDto) {
         cartService.saveCart(cartMapper.mapToCart(cartDto));
     }
@@ -44,7 +44,7 @@ public class CartController {
         cartService.addItemToCart(productId, cartId, quantity);
     }
 
-    @DeleteMapping(value = "deleteItemFromCart")
+    @DeleteMapping
     public void deleteItemFromCart(@RequestParam Long itemId, @RequestParam Long cartId) throws com.kodilla.ecommercee.controller.exception.ItemNotFoundException {
         cartService.deleteItemFromCart(itemId, cartId);
     }

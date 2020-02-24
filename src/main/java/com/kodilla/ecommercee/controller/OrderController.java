@@ -15,7 +15,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/v1/order")
+@RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
     private final UserRepository userRepository;
@@ -29,12 +29,12 @@ public class OrderController {
     }
 
 
-    @GetMapping("/getOrders")
+    @GetMapping()
     private List<Order> getOrders() {
         return orderService.getAllOrders();
     }
 
-    @PostMapping("/createOrder")
+    @PostMapping()
     private void createOrder(@RequestBody Order order){
 
         orderService.saveOrder(order);

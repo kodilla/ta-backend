@@ -12,7 +12,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/v1/group")
+@RequestMapping("/groups")
 public class GroupController {
     private final GroupService groupService;
     private final GroupMapper groupMapper;
@@ -23,22 +23,22 @@ public class GroupController {
         this.groupMapper = groupMapper;
     }
 
-    @GetMapping(value = "getGroups")
+    @GetMapping
     public List<GroupDto> getGroups() {
         return groupMapper.mapToGroupDtoList(groupService.getAllGroups());
     }
 
-    @PostMapping(value = "createGroup")
+    @PostMapping
     public void createGroup(@RequestBody GroupDto groupDto) {
         groupService.saveGroup(groupMapper.mapToGroup(groupDto));
     }
 
-    @GetMapping(value = "getGroup")
+    @GetMapping
     public GroupDto getGroup(@RequestParam Long groupId) throws GroupNotFoundException {
         return groupMapper.mapToGroupDto(groupService.getGroup(groupId).orElseThrow(GroupNotFoundException::new));
     }
 
-    @PutMapping(value = "updateGroup")
+    @PutMapping
     public GroupDto updateGroup(@RequestBody GroupDto groupDto) {
         return groupMapper.mapToGroupDto(groupService.saveGroup(groupMapper.mapToGroup(groupDto)));
     }

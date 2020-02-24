@@ -19,7 +19,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/v1/product")
+@RequestMapping("/products")
 public class ProductController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
@@ -33,23 +33,23 @@ public class ProductController {
         this.productMapper = productMapper;
     }
 
-    @GetMapping(value = "getProducts")
+    @GetMapping
     public List<ProductDto> getProducts() {
         return productMapper.mapToProductDtoList(productService.getAllProducts());
     }
 
-    @GetMapping(value = "getProduct")
+    @GetMapping
     public ProductDto getProduct(@RequestParam("productId") long productId) throws ProductNotFoundException {
         return productMapper.mapToProductDto(productService.getProductById(productId)
                 .orElseThrow(() -> new ProductNotFoundException(productId)));
     }
 
-    @PostMapping(value = "createProduct")
+    @PostMapping
     public void createProduct(@RequestBody ProductDto productDto) {
         productService.saveProduct(productMapper.mapToProduct(productDto));
     }
 
-    @PutMapping(value = "updateProduct")
+    @PutMapping
     public ProductDto updateProduct(@RequestBody ProductDto productDto) throws ProductNotFoundException{
         Product product = productService.getProductById(productDto.getProductId())
                 .orElseThrow(() -> new ProductNotFoundException(productDto.getProductId()));
@@ -62,7 +62,7 @@ public class ProductController {
         return productMapper.mapToProductDto(product);
     }
 
-    @DeleteMapping(value = "deleteProduct")
+    @DeleteMapping
     public void deleteProduct(@RequestParam("productId") long productId) {
         productService.deleteProduct(productId);
     }
