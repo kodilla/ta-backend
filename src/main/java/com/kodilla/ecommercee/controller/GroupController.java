@@ -33,12 +33,12 @@ public class GroupController {
         groupService.saveGroup(groupMapper.mapToGroup(groupDto));
     }
 
-    @GetMapping
-    public GroupDto getGroup(@RequestParam Long groupId) throws GroupNotFoundException {
+    @GetMapping(value = "/{id}")
+    public GroupDto getGroup(@PathVariable("id") Long groupId) throws GroupNotFoundException {
         return groupMapper.mapToGroupDto(groupService.getGroup(groupId).orElseThrow(GroupNotFoundException::new));
     }
 
-    @PatchMapping(value = "{/id}")
+    @PatchMapping(value = "/{id}")
     public GroupDto updateGroup(@PathVariable("id") long id, @RequestBody GroupDto groupDto) {
         return groupMapper.mapToGroupDto(groupService.saveGroup(groupMapper.mapToGroup(groupDto)));
     }
