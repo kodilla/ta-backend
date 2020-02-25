@@ -7,6 +7,8 @@ import com.kodilla.ecommercee.mapper.UserMapper;
 import com.kodilla.ecommercee.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -24,6 +26,11 @@ public class UserController {
         this.userService = userService;
         this.userMapper = userMapper;
         this.tokenService = tokenService;
+    }
+
+    @GetMapping
+    public List<UserDto> getUsers() {
+        return userService.getUsers().stream().map(user -> new UserDto(user.getUserId(), user.getUsername(), user.getUserMail(), user.isBlocked(), user.getCart()));
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
